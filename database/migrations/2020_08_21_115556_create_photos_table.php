@@ -14,7 +14,7 @@ class CreatePhotosTable extends Migration
     public function up()
     {
         Schema::create('photos', function (Blueprint $table) {
-            $table->increments("id");
+            $table->increments("id")->unsigned();;
             $table->integer('idFabric')->unsigned();
             $table->string("Imagepath");
             $table->timestamps();

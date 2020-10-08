@@ -31,7 +31,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('/fabric/{idFabric}/files/upload', 'PhotoController@addPhotos');
     Route::delete('/fabric/{idFabric}/files', 'PhotoController@deletePhoto');
 
-    Route::get('/admin/users', 'AdminUserController@getUsersList');
+    Route::get('/admin/users', 'AdminUserController@getUserList');
     Route::get('/admin/users/{idUser}', 'AdminUserController@getUser');
     Route::post('/admin/users', 'AdminUserController@postUser');
     Route::put('/admin/users/{idUser}', 'AdminUserController@updateUser');
@@ -47,10 +47,7 @@ Route::group(['middleware' => ['jwt.verify']], function() {
         Route::put('/users/{idUser}', 'UserController@updateUser');
         Route::delete('/users/{idUser}', 'UserController@deleteUser');
         Route::get('/users/{idUser}/orders', 'OrderController@getOrderList');
-        Route::get('/users/{idUser}/orders/{idOrder}', 'OrderController@getOrder');
-        Route::post('/users/{idUser}/orders', 'OrderController@postOrder');
-        Route::put('/users/{idUser}/orders/{idOrder}', 'OrderController@updateOrder');
-        Route::delete('/users/{idUser}/orders/{idOrder}', 'OrderController@deleteOrder');
+
 
         //Route::group(['namespace' => 'Guest'], function() {
             Route::get('/fabricstype', 'FabricsTypeController@getFabricsTypeList');
@@ -64,6 +61,11 @@ Route::group(['middleware' => ['jwt.verify']], function() {
             Route::get('/fabric/new', 'FabricController@getFabricNewList');
             Route::get('/fabric/action', 'FabricController@getFabricActionList');
             Route::get('/fabric/trend', 'FabricController@getFabricTrendList');
+            Route::post('/users', 'UserController@postUser');
+            Route::get('/users/{idUser}/orders/{idOrder}', 'OrderController@getOrder');
+            Route::post('/users/{idUser}/orders', 'OrderController@postOrder');
+            Route::put('/users/{idUser}/orders/{idOrder}', 'OrderController@updateOrder');
+            Route::delete('/users/{idUser}/orders/{idOrder}', 'OrderController@deleteOrder');
         //});
     //});
 //});

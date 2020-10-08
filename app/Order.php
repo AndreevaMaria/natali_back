@@ -15,18 +15,20 @@ class Order extends Model
         'idUser',
         'OrderNum',
         'OrderDate',
-        'idFabric',
-        'Amount',
         'FinalDate',
-        'OrderStatus'
+        'OrderStatus',
+        'Note'
     ];
-    /*
-    protected $with = ['FabricsList'];
 
-    public function User() {
+    //protected $with = ['OrdersFabricList'];
+
+    public function User()
+    {
         return $this->belongsTo('App\User', 'idUser');
     }
-    public function FabricsList() {
-        return $this->hasMany('App\Fabric', 'idFabric');
-    }*/
+
+    public function OrdersFabricList()
+    {
+        return $this->hasMany('App\OrdersFabric', 'idOrdersFabric', 'idFabric');
+    }
 }

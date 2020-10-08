@@ -20,7 +20,7 @@ class AdminUserController extends Controller
      */
     public function getUserList()
     {
-        return User::all();
+        return User::all()->load('OrderList');
     }
 
     /**
@@ -34,9 +34,24 @@ class AdminUserController extends Controller
      */
     public function getUser($idUser)
     {
-        return User::find($idUser);
+        return User::find($idUser)->load('OrderList');
     }
-    /**
+
+     /**
+     * Operation postOrder
+     *
+     * Сохранить юзера
+     *
+     * @param int $idUser (required)
+     *
+     * @return Http response
+     */
+    public function postUser(Request $request)
+    {
+        $input = $request->input();
+
+        return response()->json(User::create($input), 201);
+    }
 
     /**
      * Operation deleteUser

@@ -23,7 +23,8 @@ class OrderController extends Controller
      */
     public function getOrderList($idUser)
     {
-        return Order::where('idUser', $idUser)->get();
+        $orders = Order::where('idUser', $idUser)->get();
+        return $orders->load('OrdersFabricList');
     }
 
     /**
@@ -74,7 +75,7 @@ class OrderController extends Controller
         $orders = Order::where('idUser', $idUser)->get();
         $order = $orders->find($idOrder);
 
-        return response()->json($order, 200);
+        return response()->json($order->load('OrdersFabricList'), 200);
     }
 
     /**
@@ -87,9 +88,9 @@ class OrderController extends Controller
      *
      * @return Http response
      */
-    public function updateOrder(Request $request, $idUser, $idOrder)
+    public function updateOrder(Request $request, $idOrder)
     {
-        $input = $request->input('idUser', $idUser);
+        $input = $request->input();
 
         return response()->json(Order::find($idOrder)->update($input), 200);
     }

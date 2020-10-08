@@ -13,9 +13,7 @@
 
 /*use \Illuminate\Database\Eloquent\Factory;*/
 use App\Fabric;
-use App\FabricsType;
 use Faker\Generator as Faker;
-use Illuminate\Support\Arr;
 
 $factory->define(Fabric::class, function (Faker $faker) {
     return [

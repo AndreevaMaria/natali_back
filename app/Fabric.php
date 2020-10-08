@@ -23,7 +23,8 @@ class Fabric extends Model {
         'isOneton',
         'isNew',
         'isAction',
-        'isTrend'
+        'isTrend',
+        'isAvable'
     ];
 
    // protected $with = ['PhotoList'];

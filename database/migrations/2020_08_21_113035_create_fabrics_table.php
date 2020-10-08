@@ -20,14 +20,15 @@ class CreateFabricsTable extends Migration
             $table->string("Articul");
             $table->string("Price");
             $table->string("PriceNew")->nullable();
-            $table->string("Decsription");
+            $table->string("Decsription")->nullable();
             $table->string("FabricComposition");
             $table->string("FabricWidth");
-            $table->string("FabricDensity");
+            $table->string("FabricDensity")->nullable();
             $table->boolean('isOneton')->default('0')->nullable();
             $table->boolean('isNew')->default('0')->nullable();
             $table->boolean('isAction')->default('0')->nullable();
             $table->boolean('isTrend')->default('0')->nullable();
+            $table->boolean('isAvable')->default('1')->nullable();
             $table->timestamps();
             $table->foreign('idFabricsType')->references('id')->on('fabrics_types')->onDelete('cascade');
         });

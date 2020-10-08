@@ -14,17 +14,16 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->increments("id");
+            $table->increments("id")->unsigned();;
             $table->integer("idUser")->unsigned();
             $table->integer("OrderNum");
             $table->date("OrderDate");
-            $table->integer('idFabric')->unsigned();
-            $table->integer('Amount');
+            $table->float("TotalSum");
             $table->date('FinalDate');
             $table->enum('OrderStatus', array ('Создан', 'Оформлен', 'Оплачен', 'В пути', 'Получен'))->default('Создан');
+            $table->text('Note')->nullable();
             $table->timestamps();
             $table->foreign('idUser')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('idFabric')->references('id')->on('fabrics')->onUpdate('cascade');
         });
     }
 
