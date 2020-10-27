@@ -20,7 +20,7 @@ class User extends Model
      */
     protected $primaryKey = 'id';
     protected $fillable = [
-        'Name', 'Email', 'Password', 'Role'
+        'Name', 'Last name', 'Email', 'Phone', 'Password', 'Role'
     ];
 
     /**

@@ -13,25 +13,13 @@ class OrdersFabricController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    /**
-     * Operation getOrderList
-     *
-     * Список строк заказа по idOrder (корзина заказа).
-     *
-     *
-     * @return Collection|static[]
-     */
-    public function getOrdersFabricList($idOrder)
-    {
-        return OrdersFabric::where('idOrder', $idOrder)->get();
-    }
 
     /**
-     * Operation postOrder
+     * Operation postOrdersFabric
      *
      * Сохранить строки заказа по idFabric (запись в корзину заказа)
      *
-     * @param int $idUser (required)
+     * @param int $idFabric (required)
      *
      * @return Http response
      */
@@ -43,12 +31,11 @@ class OrdersFabricController extends Controller
     }
 
     /**
-     * Operation deleteOrder
+     * Operation deleteOrdersFabric
      *
      * Удалить строки заказа по idFabric (из корзины заказа)
      *
-     * @param int $idOrder (required)
-     * @param int $idUser (required)
+     * @param int $idFabric (required)
      *
      * @return Http response
      */
@@ -60,16 +47,15 @@ class OrdersFabricController extends Controller
     }
 
     /**
-     * Operation updateOrder
+     * Operation updateOrdersFabric
      *
-     * Обновить строку заказа по idFabric (из корзины заказа).
+     * Обновить строку заказа по idFabric (в корзине заказа).
      *
-     * @param int $idUser (required)
-     * @param int $idOrder (required)
+     * @param int $idFabric (required)
      *
      * @return Http response
      */
-    public function updateOrder(Request $request, $idFabric)
+    public function updateOrdersFabric(Request $request, $idFabric)
     {
         $input = $request->input();
 

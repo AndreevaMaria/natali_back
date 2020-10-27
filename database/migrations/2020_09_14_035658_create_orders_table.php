@@ -14,11 +14,12 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->increments("id")->unsigned();;
+            $table->increments("id")->unsigned();
             $table->integer("idUser")->unsigned();
             $table->integer("OrderNum");
             $table->date("OrderDate");
-            $table->float("TotalSum");
+            $table->text("TotalSum")->nullable();
+            $table->text("TotalDiscount")->nullable();
             $table->date('FinalDate');
             $table->enum('OrderStatus', array ('Создан', 'Оформлен', 'Оплачен', 'В пути', 'Получен'))->default('Создан');
             $table->text('Note')->nullable();

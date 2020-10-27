@@ -13,7 +13,7 @@ class OrdersFabric extends Model
     // protected $table = 'orders';
     protected $fillable = [
         'idOrder',
-        'idOrdersFabric',
+        'idFabric',
         'Amount',
         'Notice'
     ];
@@ -23,8 +23,8 @@ class OrdersFabric extends Model
         return $this->belongsTo('App\Order', 'idOrder');
     }
 
-    public function FabricList()
+    public function Fabric()
     {
-        return $this->hasMany('App\Fabric', 'idFabric', 'idOrdersFabric');
+        return $this->hasOne('App\Fabric', 'id');
     }
 }

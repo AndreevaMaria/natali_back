@@ -16,6 +16,7 @@ class CreateFabricsTypesTable extends Migration
         Schema::create('fabrics_types', function (Blueprint $table) {
             $table->increments("id")->unsigned();
             $table->string("Title");
+            $table->string("FabricsTypeImage")->nullable();
             $table->timestamps();
         });
     }

@@ -11,12 +11,15 @@ class FabricsType extends Model
 
     protected $primaryKey = 'id';
     //protected $table = 'fabrics_types';
-    protected $fillable = ['Title'];
-    /*
-    protected $with = ['FabricsList'];
+    protected $fillable = [
+        'Title',
+        'FabricsTypeImage'
+    ];
+
+    //protected $with = ['FabricsList'];
 
     public function FabricsList()
     {
-        return $this->hasMany('App\Fabric');
-    }*/
+        return $this->hasMany('App\Fabric', 'idFabricsType', 'id');
+    }
 }

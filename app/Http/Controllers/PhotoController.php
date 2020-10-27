@@ -15,8 +15,8 @@ class PhotoController extends Controller
     {
         $input = $request->input();
 
-        $idFabric = $input['idFabric'];
-        $files = $input['imagepath'];
+        $idFabric = $request->idFabric;
+        $files = $request->Imagepath;
 
         //$fabric = Fabric::find($idFabric);
 
@@ -27,21 +27,48 @@ class PhotoController extends Controller
                 //Storage::disk('images')->putFileAs($original_name);
                 Photo::create ([
                     'idFabric' => $idFabric,
-                    'Imagepath' => 'images/'.$original_name
+                    'Imagepath' => 'images/'.$original_name,
+                    'ImageNotice' => $input[]
                 ]);
             }
         }
         return 'Загрузка прошла успешно!';
     }
 
-    public function deletePhoto(Request $request)
+    public function deletePhoto(Request $request, $idPhoto)
     {
-        $input = $request->input();
-        $path = $input['imagepath'];
+        Storage::disk()->delete($request->Imagepath);
 
-        Storage::disk()->delete($path);
-        DB::table('photos')->where('Imagepath', '=', 'images/'.$path)->delete();
+        return response()->json(Photo::find($idPhoto)->delete(), 200);
+    }
 
-        return response()->json('', 200);
+    /**
+     * Operation getPhotoList
+     *
+     * Получить список фотографий ткани.
+     *
+     * @param int $idFabric  (required)
+     *
+     * @return Collection|static[]
+     */
+    public function getPhotoList(Request $request, $idFabric)
+    {
+        $photos = Photo::where('idFabric', $idFabric)->get();
+
+        return $photos;
+    }
+}
+if(!empty($_FILES['file']['name'])) {
+    //перебираем все загруженные через форму картинки
+    foreach($_FILES['file']['name'] as $k => $v) {
+        //проверяем, произошла ли ошибка при загрузке какого-нибудь из множества файлов
+        if($_FILES['file']['error'][$k] != 0) {
+            echo "<script>alert('Upload file error: $v')</script>";
+            continue;
+        }
+        if(move_uploaded_file($_FILES['file']['tmp_name'][$k], 'images/'.$v)) {
+            $ins = 'INSERT INTO images(hotelid, imagepath) VALUES('.$_POST['hotelid'].', "images/'.$v.'")';
+            mysqli_query($link, $ins);
+        }
     }
 }

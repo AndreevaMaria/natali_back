@@ -18,5 +18,6 @@ use Faker\Generator as Faker;
 $factory->define(FabricsType::class, function (Faker $faker) {
     return [
         'Title' => $faker->catchPhrase,
+        'FabricsTypeImage' => ''
     ];
 });

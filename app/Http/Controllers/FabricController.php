@@ -27,13 +27,15 @@ class FabricController extends Controller
     public function getFabricsList($id)
     {
         $fabrics = Fabric::where('idFabricsType', $id)->get();
-        $fabrics_with_photo = [];
         foreach($fabrics as $fabric) {
-            $fabric_photo = DB::table('photos')->where('idFabric', $fabric->id)->first();
-            $fabric->FabricImage = $fabric_photo->Imagepath;
-            array_push($fabrics_with_photo, $fabric);
+            if($fabric->FabricImage === '') {
+                if(isset($fabric->PhotoList)) {
+                    $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                    $fabric->FabricImage = $fabric_photo;
+                }
+            }
         }
-        return $fabrics_with_photo;
+        return $fabrics;
     }
 
     /**
@@ -41,7 +43,7 @@ class FabricController extends Controller
      *
      * Открыть ткань по id.
      *
-     * @param int $id  (required)
+     * @param int $idFabric  (required)
      *
      * @return Collection|static[]
      */
@@ -51,6 +53,7 @@ class FabricController extends Controller
         $fabric = $fabrics->find($idFabric);
         return $fabric->load('PhotoList');
     }
+
 
     /**
      * Operation postFabric
@@ -69,12 +72,13 @@ class FabricController extends Controller
 
         return response()->json(Fabric::create($input), 201);
     }
+
     /**
      * Operation deleteFabric
      *
      * Удалить ткань.
      *
-     * @param int $id  (required)
+     * @param int $idFabric  (required)
      *
      * @return Http response
      */
@@ -105,79 +109,80 @@ class FabricController extends Controller
     public function search(Request $request) {
         $search = $request->input['searchform'];
         $search = '%'.$search.'%';
-        $fabrics = Fabric::where('title', 'like', $search)->get();
+        $fabrics = Fabric::where('Title', 'like', $search)->get();
         return response()->json($fabrics, 200);
     }
 
     public function getFabricActionList()
     {
         $fabrics = DB::table('fabrics')->where('isAction', true)->get();
-        $fabrics_with_photo = [];
         foreach($fabrics as $fabric) {
-            $fabric_photo = DB::table('photos')->where('idFabric', $fabric->id)->first();
-            $fabric->FabricImage = $fabric_photo->Imagepath;
-            array_push($fabrics_with_photo, $fabric);
+            if($fabric->FabricImage === '') {
+                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric->FabricImage = $fabric_photo;
+            }
         }
-        return $fabrics_with_photo;
+        return $fabrics;
     }
 
     public function getFabricNewList()
     {
         $fabrics = DB::table('fabrics')->where('isNew', true)->get();
-        $fabrics_with_photo = [];
         foreach($fabrics as $fabric) {
-            $fabric_photo = DB::table('photos')->where('idFabric', $fabric->id)->first();
-            $fabric->FabricImage = $fabric_photo->Imagepath;
-            array_push($fabrics_with_photo, $fabric);
+            if($fabric->FabricImage === '') {
+                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric->FabricImage = $fabric_photo;
+            }
         }
-        return $fabrics_with_photo;
+        return $fabrics;
     }
 
     public function getFabricTrendList()
     {
         $fabrics = DB::table('fabrics')->where('isTrend', true)->get();
-        $fabrics_with_photo = [];
         foreach($fabrics as $fabric) {
-            $fabric_photo = DB::table('photos')->where('idFabric', $fabric->id)->first();
-            $fabric->FabricImage = $fabric_photo->Imagepath;
-            array_push($fabrics_with_photo, $fabric);
+            if($fabric->FabricImage === '') {
+                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric->FabricImage = $fabric_photo;
+            }
         }
-        return $fabrics_with_photo;
+        return $fabrics;
     }
 
     public function getFabricAction()
     {
         $fabrics = DB::table('fabrics')->where('isAction', true)->take(3)->get();
-        $fabrics_with_photo = [];
         foreach($fabrics as $fabric) {
-            $fabric_photo = DB::table('photos')->where('idFabric', $fabric->id)->first();
-            $fabric->FabricImage = $fabric_photo->Imagepath;
-            array_push($fabrics_with_photo, $fabric);
+            if($fabric->FabricImage === '') {
+                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+
+                $fabric->FabricImage = $fabric_photo;
+            }
         }
-        return $fabrics_with_photo;
+        return $fabrics;
     }
 
     public function getFabricNew()
     {
         $fabrics = DB::table('fabrics')->where('isNew', true)->take(3)->get();
-        $fabrics_with_photo = [];
         foreach($fabrics as $fabric) {
-            $fabric_photo = DB::table('photos')->where('idFabric', $fabric->id)->first();
-            $fabric->FabricImage = $fabric_photo->Imagepath;
-            array_push($fabrics_with_photo, $fabric);
+            if($fabric->FabricImage === '') {
+                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric->FabricImage = $fabric_photo;
+            }
         }
-        return $fabrics_with_photo;
+        return $fabrics;
     }
 
     public function getFabricTrend()
     {
         $fabrics = DB::table('fabrics')->where('isTrend', true)->take(3)->get();
-        $fabrics_with_photo = [];
         foreach($fabrics as $fabric) {
-            $fabric_photo = DB::table('photos')->where('idFabric', $fabric->id)->first();
-            $fabric->FabricImage = $fabric_photo->Imagepath;
-            array_push($fabrics_with_photo, $fabric);
+            if($fabric->FabricImage === '') {
+                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric->FabricImage = $fabric_photo;
+            }
         }
-        return $fabrics_with_photo;
+        return $fabrics;
     }
 }

@@ -21,7 +21,7 @@ $factory->define(Fabric::class, function (Faker $faker) {
         'Title' => $faker->catchPhrase,
         'Articul' => $faker->text(10),
         'Price' => $faker->regexify('[3-9]') * 50,
-        'PriceNew' => '',
+        'PriceNew' => 0,
         'Decsription' => $faker->text(100),
         'FabricComposition' => $faker->text(10),
         'FabricDensity' => $faker->randomDigitNotNull * 100,
@@ -30,6 +30,7 @@ $factory->define(Fabric::class, function (Faker $faker) {
         'isNew' => $faker->boolean($chanceOfGettingTrue = 30),
         'isAction' => $faker->boolean($chanceOfGettingTrue = 20),
         'isTrend' => $faker->boolean($chanceOfGettingTrue = 30),
-
+        'isAvailable'=> $faker->boolean($chanceOfGettingTrue = 80),
+        'FabricImage'=> ""
     ];
 });

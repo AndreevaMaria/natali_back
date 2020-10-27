@@ -25,15 +25,17 @@ class FabricsTypeController extends Controller
      */
     public function getFabricsTypeList()
     {
-        $fabricstypes = FabricsType::all();
-        $fabricstypes_with_photo = [];
+        $fabricstypes = FabricsType::has('FabricsList')->get();
         foreach($fabricstypes as $fabricstype) {
-            $fabric = Fabric::where('idFabricsType', $fabricstype->id)->first();
-            $fabricstype_photo = Photo::where('idFabric', $fabric->id)->first();
-            $fabricstype->FabricstypeImage = $fabricstype_photo->Imagepath;
-            array_push($fabricstypes_with_photo, $fabricstype);
+            if($fabricstype->FabricsTypeImage === '') {
+                $fabric = Fabric::where('idFabricsType', $fabricstype->id)->first();
+                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                if($fabric_photo) {
+                    $fabricstype->FabricsTypeImage = $fabric_photo;
+                }
+            }
         }
-        return $fabricstypes_with_photo;
+        return $fabricstypes;
     }
 
     /**
@@ -62,8 +64,6 @@ class FabricsTypeController extends Controller
      */
     public function deleteFabricsType(Request $request, $id)
     {
-        $input = $request->input();
-
         return response()->json(FabricsType::find($id)->delete(), 200);
     }
 
@@ -78,8 +78,6 @@ class FabricsTypeController extends Controller
      */
     public function getFabricsType(Request $request, $id)
     {
-        $input = $request->input();
-
         return response()->json(FabricsType::find($id), 200);
     }
 
@@ -94,8 +92,6 @@ class FabricsTypeController extends Controller
      */
     public function updateFabricsType(Request $request, $id)
     {
-        $input = $request->input();
-
-        return response()->json(FabricsType::find($id)->update($input), 200);
+        return response()->json(FabricsType::find($id)->update($request->input()), 200);
     }
 }

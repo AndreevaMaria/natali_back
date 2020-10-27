@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrdersfabricTable extends Migration
+class CreateOrdersFabricsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateOrdersfabricTable extends Migration
      */
     public function up()
     {
-        Schema::create('ordersfabric', function (Blueprint $table) {
+        Schema::create('orders_fabrics', function (Blueprint $table) {
             $table->increments('id')->unsigned();;
-            $table->integer('idOrdersFabric')->unsigned();
+            $table->integer('idFabric')->unsigned();
             $table->integer('idOrder')->unsigned();
             $table->text('Notice')->nullable();
             $table->integer('Amount');
             $table->timestamps();
             $table->foreign('idOrder')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreign('idOrdersFabric')->references('id')->on('fabrics')->onDelete('cascade');
+            $table->foreign('idFabric')->references('id')->on('fabrics')->onDelete('cascade');
         });
     }
 
@@ -32,6 +32,6 @@ class CreateOrdersfabricTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ordersfabric');
+        Schema::dropIfExists('orders_fabrics');
     }
 }

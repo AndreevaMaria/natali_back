@@ -15,6 +15,8 @@ class Order extends Model
         'idUser',
         'OrderNum',
         'OrderDate',
+        'TotalSum',
+        'TotalDiscount',
         'FinalDate',
         'OrderStatus',
         'Note'
@@ -29,6 +31,6 @@ class Order extends Model
 
     public function OrdersFabricList()
     {
-        return $this->hasMany('App\OrdersFabric', 'idOrdersFabric', 'idFabric');
+        return $this->hasMany('App\OrdersFabric', 'idOrder');
     }
 }

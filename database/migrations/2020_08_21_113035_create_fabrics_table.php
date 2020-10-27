@@ -28,7 +28,8 @@ class CreateFabricsTable extends Migration
             $table->boolean('isNew')->default('0')->nullable();
             $table->boolean('isAction')->default('0')->nullable();
             $table->boolean('isTrend')->default('0')->nullable();
-            $table->boolean('isAvable')->default('1')->nullable();
+            $table->boolean('isAvailable')->default('1')->nullable();
+            $table->string("FabricImage")->nullable();
             $table->timestamps();
             $table->foreign('idFabricsType')->references('id')->on('fabrics_types')->onDelete('cascade');
         });

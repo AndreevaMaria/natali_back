@@ -24,13 +24,14 @@ class Fabric extends Model {
         'isNew',
         'isAction',
         'isTrend',
-        'isAvable'
+        'isAvailable',
+        'FabricImage'
     ];
 
    // protected $with = ['PhotoList'];
 
     public function FabricsType() {
-        return $this->belongsTo('App\FabricsType', 'idFabricsType');
+        return $this->belongsTo('App\FabricsType', 'idFabricsType', 'id');
     }
 
     public function PhotoList() {

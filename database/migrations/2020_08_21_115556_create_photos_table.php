@@ -17,6 +17,7 @@ class CreatePhotosTable extends Migration
             $table->increments("id")->unsigned();;
             $table->integer('idFabric')->unsigned();
             $table->string("Imagepath");
+            $table->string("ImageNotice")->nullable();
             $table->timestamps();
             $table->foreign('idFabric')->references('id')->on('fabrics')->onDelete('cascade');
         });

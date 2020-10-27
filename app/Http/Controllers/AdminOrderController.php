@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Order;
+use App\OrdersFabric;
+use App\Fabric;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class AdminOrderController extends Controller
 {
@@ -23,7 +26,28 @@ class AdminOrderController extends Controller
      */
     public function getOrderList()
     {
-        return Order::all();
+        $orders = Order::all();
+        foreach($orders as $order) {
+            $item_sum = 0;
+            $item_discount = 0;
+            foreach($order->OrdersFabricList as $item) {
+                $discount = 0;
+                $new = $item->Fabric->PriceNew;
+                $regular = $item->Fabric->Price;
+                $price = ($new != 0) ? $new : $regular;
+                if ($price == $new) {
+                    $discount = $regular - $new;
+                } else { $discount = 0; }
+                $sum = $price * $item->Amount;
+                $sum_discount = $discount * $item->Amount;
+                $item_sum = $item_sum + $sum;
+                $item_discount = $item_discount + $sum_discount;
+            }
+            $order->TotalSum = $item_sum;
+            $order->TotalDiscount = $item_discount;
+            $order->save();
+        }
+        return $orders->load('OrdersFabricList');
     }
 
     /**
