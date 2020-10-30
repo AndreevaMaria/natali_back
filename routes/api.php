@@ -70,7 +70,7 @@ Route::group([
             Route::get('/fabricstype/{id}', 'FabricsTypeController@getFabricsType');
             Route::get('/fabricstype/{id}/fabric', 'FabricController@getFabricsList');
             Route::get('/fabricstype/{id}/fabric/{idFabric}', 'FabricController@getFabric');
-            //Route::get('/fabric/{idFabric}/files', 'PhotoController@getPhotoList');
+            Route::get('/fabricstype/{id}/files', 'PhotoController@getPhotoList');
             Route::get('/fabric/search', 'FabricController@search');
             Route::get('/fabric_new', 'FabricController@getFabricNew');
             Route::get('/fabric_action', 'FabricController@getFabricAction');

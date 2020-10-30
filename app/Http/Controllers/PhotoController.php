@@ -16,9 +16,9 @@ class PhotoController extends Controller
         $input = $request->input();
 
         $idFabric = $request->idFabric;
+        $fabric = Fabric::find($idFabric)->get();
+        $idFabricsType = $fabric->idFabricsType;
         $files = $request->Imagepath;
-
-        //$fabric = Fabric::find($idFabric);
 
         if ($files !== null) {
             foreach($files as $file) {
@@ -27,8 +27,9 @@ class PhotoController extends Controller
                 //Storage::disk('images')->putFileAs($original_name);
                 Photo::create ([
                     'idFabric' => $idFabric,
+                    'idFabricsType' => $idFabricsType,
                     'Imagepath' => 'images/'.$original_name,
-                    'ImageNotice' => $input[]
+                    'ImageNotice' => $request->ImageNotice
                 ]);
             }
         }
@@ -45,19 +46,20 @@ class PhotoController extends Controller
     /**
      * Operation getPhotoList
      *
-     * Получить список фотографий ткани.
+     * Получить список фотографий всей категории.
      *
      * @param int $idFabric  (required)
      *
      * @return Collection|static[]
      */
-    public function getPhotoList(Request $request, $idFabric)
+    public function getPhotoList($idFabricsType)
     {
-        $photos = Photo::where('idFabric', $idFabric)->get();
+        $photos = Photo::where('idFabricsType', $idFabricsType)->get();
 
         return $photos;
     }
 }
+/*
 if(!empty($_FILES['file']['name'])) {
     //перебираем все загруженные через форму картинки
     foreach($_FILES['file']['name'] as $k => $v) {
@@ -72,3 +74,4 @@ if(!empty($_FILES['file']['name'])) {
         }
     }
 }
+*/

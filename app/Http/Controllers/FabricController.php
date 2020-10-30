@@ -47,10 +47,10 @@ class FabricController extends Controller
      *
      * @return Collection|static[]
      */
-    public function getFabric($id, $idFabric)
+    public function getFabric($idFabricsType, $id)
     {
-        $fabrics = Fabric::where('idFabricsType', $id)->get();
-        $fabric = $fabrics->find($idFabric);
+        $fabrics = Fabric::where('idFabricsType', $idFabricsType)->get();
+        $fabric = $fabrics->find($id);
         return $fabric->load('PhotoList');
     }
 
@@ -107,10 +107,11 @@ class FabricController extends Controller
     }
 
     public function search(Request $request) {
-        $search = $request->input['searchform'];
+        $search = $request->searchform;
         $search = '%'.$search.'%';
-        $fabrics = Fabric::where('Title', 'like', $search)->get();
-        return response()->json($fabrics, 200);
+        $fabrics = Fabric::where('Title', 'LIKE', '%'.$search.'%')->get();
+
+        return $fabrics;
     }
 
     public function getFabricActionList()

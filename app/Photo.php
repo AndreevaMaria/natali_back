@@ -12,6 +12,7 @@ class Photo extends Model {
    // protected $table = 'photos';
     protected $fillable = [
         'idFabric',
+        'idFabricsType',
         'Imagepath',
         'ImageNotice'
     ];

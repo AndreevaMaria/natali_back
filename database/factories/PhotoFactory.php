@@ -20,6 +20,7 @@ use Illuminate\Support\Arr;
 $factory->define(Photo::class, function (Faker $faker) {
     return [
         'idFabric' => $faker->numberBetween($min = 1, $max = 50),
+        'idFabricsType' => $faker->numberBetween($min = 1, $max = 10),
         'Imagepath' => $faker->imageUrl($width = 640, $height = 480),
         'ImageNotice' => $faker->catchPhrase,
     ];
