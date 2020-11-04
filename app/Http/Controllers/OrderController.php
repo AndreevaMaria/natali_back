@@ -22,7 +22,7 @@ class OrderController extends Controller
      *
      * @return Collection|static[]
      */
-    public function getOrderList($idUser)
+    public function getOrderListByUser($idUser)
     {
         $orders = Order::where('idUser', $idUser)->get();
         foreach($orders as $order) {
@@ -51,7 +51,7 @@ class OrderController extends Controller
     /**
      * Operation postOrder
      *
-     * Сохранить заказ (корзина товаров, подтверждение заказа)
+     * Сохранить заказ (подтверждение заказа)
      *
      * @param int $idUser (required)
      *
@@ -74,10 +74,9 @@ class OrderController extends Controller
      *
      * @return Http response
      */
-    public function deleteOrder($idUser, $idOrder)
+    public function deleteOrder($idOrder)
     {
-        $orders = Order::where('idUser', $idUser)->get();
-        $orders->find($idOrder)->delete();
+        Order::find($idOrder)->delete();
 
         return response()->json('', 200);
     }
@@ -92,10 +91,9 @@ class OrderController extends Controller
      *
      * @return Http response
      */
-    public function getOrder($idUser, $idOrder)
+    public function getOrder($idOrder)
     {
-        $orders = Order::where('idUser', $idUser)->get();
-        $order = $orders->find($idOrder);
+        $order = Order::find($idOrder)->get();
 
         return response()->json($order->load('OrdersFabricList'), 200);
     }

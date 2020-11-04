@@ -24,15 +24,13 @@ class FabricController extends Controller
      *
      * @return Collection|static[]
      */
-    public function getFabricsList($id)
+    public function getFabricsList($idFabricsType)
     {
-        $fabrics = Fabric::where('idFabricsType', $id)->get();
+        $fabrics = Fabric::where('idFabricsType', $idFabricsType)->get();
         foreach($fabrics as $fabric) {
             if($fabric->FabricImage === '') {
-                if(isset($fabric->PhotoList)) {
-                    $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
-                    $fabric->FabricImage = $fabric_photo;
-                }
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
+                $fabric->FabricImage = $fabric_photo;
             }
         }
         return $fabrics;
@@ -47,10 +45,10 @@ class FabricController extends Controller
      *
      * @return Collection|static[]
      */
-    public function getFabric($idFabricsType, $id)
+    public function getFabric($id, $idFabric)
     {
-        $fabrics = Fabric::where('idFabricsType', $idFabricsType)->get();
-        $fabric = $fabrics->find($id);
+        $fabrics = Fabric::where('idFabricsType', $id)->get();
+        $fabric = $fabrics->find($idFabric);
         return $fabric->load('PhotoList');
     }
 
@@ -119,7 +117,7 @@ class FabricController extends Controller
         $fabrics = DB::table('fabrics')->where('isAction', true)->get();
         foreach($fabrics as $fabric) {
             if($fabric->FabricImage === '') {
-                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
                 $fabric->FabricImage = $fabric_photo;
             }
         }
@@ -131,7 +129,7 @@ class FabricController extends Controller
         $fabrics = DB::table('fabrics')->where('isNew', true)->get();
         foreach($fabrics as $fabric) {
             if($fabric->FabricImage === '') {
-                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
                 $fabric->FabricImage = $fabric_photo;
             }
         }
@@ -143,7 +141,7 @@ class FabricController extends Controller
         $fabrics = DB::table('fabrics')->where('isTrend', true)->get();
         foreach($fabrics as $fabric) {
             if($fabric->FabricImage === '') {
-                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
                 $fabric->FabricImage = $fabric_photo;
             }
         }
@@ -155,8 +153,7 @@ class FabricController extends Controller
         $fabrics = DB::table('fabrics')->where('isAction', true)->take(3)->get();
         foreach($fabrics as $fabric) {
             if($fabric->FabricImage === '') {
-                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
-
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
                 $fabric->FabricImage = $fabric_photo;
             }
         }
@@ -168,7 +165,7 @@ class FabricController extends Controller
         $fabrics = DB::table('fabrics')->where('isNew', true)->take(3)->get();
         foreach($fabrics as $fabric) {
             if($fabric->FabricImage === '') {
-                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
                 $fabric->FabricImage = $fabric_photo;
             }
         }
@@ -180,7 +177,7 @@ class FabricController extends Controller
         $fabrics = DB::table('fabrics')->where('isTrend', true)->take(3)->get();
         foreach($fabrics as $fabric) {
             if($fabric->FabricImage === '') {
-                $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
                 $fabric->FabricImage = $fabric_photo;
             }
         }
