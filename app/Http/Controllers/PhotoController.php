@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Photo;
 use App\Fabric;
+use App\FabricsType;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -13,16 +14,22 @@ class PhotoController extends Controller
 {
     public function addPhotos(Request $request)
     {
-        $input = $request->input();
+        //$input = $request->input();
 
         $idFabric = $request->idFabric;
-        $fabric = Fabric::find($idFabric)->get();
-        $idFabricsType = $fabric->idFabricsType;
+        if($idFabric) {
+            $fabric = Fabric::find($idFabric)->get();
+        }
+
+        $idFabricsType = $request->idFabricsType;
+        $fabricstype = FabricsType::find($idFabricsType)->get();
+
         $files = $request->Imagepath;
 
         if ($files !== null) {
             foreach($files as $file) {
-                $original_name = $idFabric.'.'.$file->getClientOriginalExtension();
+                $name = $fabric ? $idFabric: 'category'.$idFabricsType;
+                $original_name = $name.'.'.$file->getClientOriginalExtension();
                 $file->move(public_path().'/images', $original_name);
                 //Storage::disk('images')->putFileAs($original_name);
                 Photo::create ([

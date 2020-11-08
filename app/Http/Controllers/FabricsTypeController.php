@@ -94,4 +94,25 @@ class FabricsTypeController extends Controller
     {
         return response()->json(FabricsType::find($id)->update($request->input()), 200);
     }
+
+    public function addFabricsTypeImage(Request $request)
+    {
+        $idFabricsType = $request->idFabricsType;
+        $fabricstype = FabricsType::find($idFabricsType)->get();
+        $file = $request->Imagepath;
+
+        if ($file !== null) {
+            $original_name = 'category'.$idFabricsType . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path() . '/images', $original_name);
+            $fabricstype->FabricsTypeImage = 'images/' . $original_name;
+            Photo::create ([
+                'idFabric' => $request->idFabric,
+                'idFabricsType' => $idFabricsType,
+                'Imagepath' => 'images/'.$original_name,
+                'ImageNotice' => $request->ImageNotice
+            ]);
+        }
+        $fabricstype->save();
+        return $fabricstype;
+    }
 }

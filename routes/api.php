@@ -38,11 +38,13 @@ Route::group([
     Route::post('/fabricstype', 'FabricsTypeController@postFabricsType');
     Route::put('/fabricstype/{id}', 'FabricsTypeController@updateFabricsType');
     Route::delete('/fabricstype/{id}', 'FabricsTypeController@deleteFabricsType');
+    Route::post('/files/fabricstype/upload', 'FabricsTypeController@addFabricsTypeImage');
     Route::post('/fabricstype/{id}/fabric', 'FabricController@postFabric');
     Route::put('/fabricstype/{id}/fabric/{idFabric}', 'FabricController@updateFabric');
     Route::delete('/fabricstype/{id}/fabric/{idFabric}', 'FabricController@deleteFabric');
-    Route::post('/fabric/{idFabric}/files/upload', 'PhotoController@addPhotos');
-    Route::delete('/fabric/{idFabric}/files', 'PhotoController@deletePhoto');
+    Route::post('/files/fabric/upload', 'FabricController@addFabricImage');
+    Route::post('/files/upload', 'PhotoController@addPhotos');
+    Route::delete('/files/{id}', 'PhotoController@deletePhoto');
 
     Route::get('/admin/users', 'AdminUserController@getUserList');
     Route::get('/admin/users/{idUser}', 'AdminUserController@getUser');

@@ -183,4 +183,25 @@ class FabricController extends Controller
         }
         return $fabrics;
     }
+
+    public function addFabricImage(Request $request)
+    {
+        $idFabric = $request->idFabric;
+        $fabric = Fabric::find($idFabric)->get();
+        $file = $request->Imagepath;
+
+        if ($file !== null) {
+            $original_name = $idFabric . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path() . '/images', $original_name);
+            $fabric->FabricImage = 'images/' . $original_name;
+            Photo::create ([
+                'idFabric' => $request->idFabric,
+                'idFabricsType' => $request->idFabricsType,
+                'Imagepath' => 'images/'.$original_name,
+                'ImageNotice' => $request->ImageNotice
+            ]);
+        }
+        $fabric->save();
+        return $fabric;
+    }
 }
