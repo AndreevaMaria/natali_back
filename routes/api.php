@@ -32,9 +32,9 @@ post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name
 get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 post('password/reset', 'Auth\ResetPasswordController@reset');
 */
-Route::group([
-    'middleware' => 'admin',
-], function () {
+//Route::group([
+//    'middleware' => 'admin',
+//], function () {
     Route::post('/fabricstype', 'FabricsTypeController@postFabricsType');
     Route::put('/fabricstype/{id}', 'FabricsTypeController@updateFabricsType');
     Route::delete('/fabricstype/{id}', 'FabricsTypeController@deleteFabricsType');
@@ -57,7 +57,7 @@ Route::group([
     Route::put('/admin/orders/{idOrder}', 'AdminOrderController@updateOrder');
     Route::delete('/admin/orders/{idOrder}', 'AdminOrderController@deleteOrder');
 
-});
+//});
 
 
     //Route::group(['namespace' => 'users'], function() {
