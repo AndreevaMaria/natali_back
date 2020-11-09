@@ -14,6 +14,7 @@ class OrdersFabric extends Model
     protected $fillable = [
         'idOrder',
         'idFabric',
+        'idFabricsType',
         'Amount',
         'Notice'
     ];
@@ -25,6 +26,6 @@ class OrdersFabric extends Model
 
     public function Fabric()
     {
-        return $this->hasOne('App\Fabric', 'id');
+        return $this->hasOne('App\Fabric', 'id', 'idFabric');
     }
 }

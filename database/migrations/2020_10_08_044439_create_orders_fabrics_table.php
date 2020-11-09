@@ -16,6 +16,7 @@ class CreateOrdersFabricsTable extends Migration
         Schema::create('orders_fabrics', function (Blueprint $table) {
             $table->increments('id')->unsigned();;
             $table->integer('idFabric')->unsigned();
+            $table->integer('idFabricsType')->unsigned();
             $table->integer('idOrder')->unsigned();
             $table->text('Notice')->nullable();
             $table->integer('Amount');
