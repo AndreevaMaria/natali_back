@@ -105,7 +105,8 @@ class FabricController extends Controller
     }
 
     public function search(Request $request) {
-        $search = $request->searchform;
+        var_dump($request);
+        $search = $request->query;
         $search = '%'.$search.'%';
         $fabrics = Fabric::where('Title', 'LIKE', '%'.$search.'%')->get();
 
