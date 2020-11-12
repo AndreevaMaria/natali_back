@@ -105,11 +105,16 @@ class FabricController extends Controller
     }
 
     public function search(Request $request) {
-        var_dump($request);
-        $search = $request->query;
+        //var_dump($request);
+        $search = $request->input()['query'];
         $search = '%'.$search.'%';
         $fabrics = Fabric::where('Title', 'LIKE', '%'.$search.'%')->get();
-
+        foreach($fabrics as $fabric) {
+            if($fabric->FabricImage === '') {
+                $fabric_photo = Photo::firstWhere('idFabric', $fabric->id)->Imagepath;
+                $fabric->FabricImage = $fabric_photo;
+            }
+        }
         return $fabrics;
     }
 
