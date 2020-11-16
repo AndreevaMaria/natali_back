@@ -193,19 +193,13 @@ class FabricController extends Controller
     public function addFabricImage(Request $request)
     {
         $idFabric = $request->idFabric;
-        $fabric = Fabric::find($idFabric)->get();
+        $fabric = Fabric::find($idFabric);
         $file = $request->Imagepath;
 
         if ($file !== null) {
             $original_name = $idFabric . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path() . '/images', $original_name);
-            $fabric->FabricImage = 'images/' . $original_name;
-            Photo::create ([
-                'idFabric' => $request->idFabric,
-                'idFabricsType' => $request->idFabricsType,
-                'Imagepath' => 'images/'.$original_name,
-                'ImageNotice' => $request->ImageNotice
-            ]);
+            $file->move(public_path().'/images/product/', $original_name);
+            $fabric->FabricImage = 'images/product/' . $original_name;
         }
         $fabric->save();
         return $fabric;

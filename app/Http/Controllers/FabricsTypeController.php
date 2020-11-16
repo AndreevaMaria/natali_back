@@ -25,9 +25,9 @@ class FabricsTypeController extends Controller
      */
     public function getFabricsTypeList()
     {
-        $fabricstypes = FabricsType::has('FabricsList')->get();
+        $fabricstypes = FabricsType::all();
         foreach($fabricstypes as $fabricstype) {
-            if($fabricstype->FabricsTypeImage === '') {
+            if($fabricstype->has('FabricsList') && $fabricstype->FabricsTypeImage === '') {
                 $fabric = Fabric::where('idFabricsType', $fabricstype->id)->first();
                 $fabric_photo = Fabric::find($fabric->id)->PhotoList()->get()[0]->Imagepath;
                 if($fabric_photo) {
@@ -98,19 +98,13 @@ class FabricsTypeController extends Controller
     public function addFabricsTypeImage(Request $request)
     {
         $idFabricsType = $request->idFabricsType;
-        $fabricstype = FabricsType::find($idFabricsType)->get();
+        $fabricstype = FabricsType::find($idFabricsType);
         $file = $request->Imagepath;
 
         if ($file !== null) {
             $original_name = 'category'.$idFabricsType . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path() . '/images', $original_name);
-            $fabricstype->FabricsTypeImage = 'images/' . $original_name;
-            Photo::create ([
-                'idFabric' => $request->idFabric,
-                'idFabricsType' => $idFabricsType,
-                'Imagepath' => 'images/'.$original_name,
-                'ImageNotice' => $request->ImageNotice
-            ]);
+            $file->move(public_path().'/images/category/', $original_name);
+            $fabricstype->FabricsTypeImage = 'images/category/' . $original_name;
         }
         $fabricstype->save();
         return $fabricstype;

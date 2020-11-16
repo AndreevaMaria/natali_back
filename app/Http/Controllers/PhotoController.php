@@ -17,21 +17,14 @@ class PhotoController extends Controller
         //$input = $request->input();
 
         $idFabric = $request->idFabric;
-        if($idFabric) {
-            $fabric = Fabric::find($idFabric)->get();
-        }
-
         $idFabricsType = $request->idFabricsType;
-        $fabricstype = FabricsType::find($idFabricsType)->get();
-
         $files = $request->Imagepath;
 
         if ($files !== null) {
             foreach($files as $file) {
-                $name = $fabric ? $idFabric: 'category'.$idFabricsType;
+                $name = $idFabric ? $idFabric: 'category'.$idFabricsType;
                 $original_name = $name.'.'.$file->getClientOriginalExtension();
                 $file->move(public_path().'/images', $original_name);
-                //Storage::disk('images')->putFileAs($original_name);
                 Photo::create ([
                     'idFabric' => $idFabric,
                     'idFabricsType' => $idFabricsType,
@@ -43,9 +36,10 @@ class PhotoController extends Controller
         return 'Загрузка прошла успешно!';
     }
 
+
     public function deletePhoto(Request $request, $idPhoto)
     {
-        Storage::disk()->delete($request->Imagepath);
+        //Storage::disk()->delete($request->Imagepath);
 
         return response()->json(Photo::find($idPhoto)->delete(), 200);
     }
