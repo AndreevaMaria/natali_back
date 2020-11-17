@@ -21,17 +21,17 @@ class PhotoController extends Controller
         $files = $request->Imagepath;
 
         if ($files !== null) {
-            foreach($files as $file) {
+           // foreach($files as $file) {
                 $name = $idFabric ? $idFabric: 'category'.$idFabricsType;
-                $original_name = $name.'.'.$file->getClientOriginalExtension();
-                $file->move(public_path().'/images', $original_name);
+                $original_name = $name.'.'.$files->getClientOriginalExtension();
+                $files->move(public_path().'/images', $original_name);
                 Photo::create ([
                     'idFabric' => $idFabric,
                     'idFabricsType' => $idFabricsType,
                     'Imagepath' => 'images/'.$original_name,
                     'ImageNotice' => $request->ImageNotice
                 ]);
-            }
+         //   }
         }
         return 'Загрузка прошла успешно!';
     }

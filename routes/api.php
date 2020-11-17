@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Auth::routes();
+//Auth::routes();
 /*
  Authentication Routes...
 get('login', 'Auth\LoginController@showLoginForm')->name('login');
@@ -32,6 +32,16 @@ post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name
 get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
 post('password/reset', 'Auth\ResetPasswordController@reset');
 */
+
+
+Route::get('/login', 'AuthController@getLoginForm')->name('login');
+Route::get('/registration', 'AuthController@getRegistrationForm');
+Route::post('/login', 'AuthController@postLogin');
+Route::post('/registration', 'AuthController@postRegister');
+Route::get('/dashboard', 'AuthController@dashboard');
+Route::put('/registration/{idUser}', 'AuthController@updateUser');
+Route::post('/logout', 'AuthController@postLogout');
+
 //Route::group([
 //    'middleware' => 'admin',
 //], function () {
@@ -91,3 +101,4 @@ post('password/reset', 'Auth\ResetPasswordController@reset');
         //});
     //});
 //});
+
