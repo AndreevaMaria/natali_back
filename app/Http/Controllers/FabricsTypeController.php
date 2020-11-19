@@ -99,7 +99,7 @@ class FabricsTypeController extends Controller
     {
         $idFabricsType = $request->idFabricsType;
         $fabricstype = FabricsType::find($idFabricsType);
-        $file = $request->Imagepath;
+        $file = $request->Image;
 
         if ($file !== null) {
             $original_name = 'category'.$idFabricsType . '.' . $file->getClientOriginalExtension();

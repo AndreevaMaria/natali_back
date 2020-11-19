@@ -51,6 +51,39 @@ class AdminOrderController extends Controller
     }
 
     /**
+     * Operation getOrderListbyFabric
+     *
+     * Список заказов по idUser.
+     *
+     * @return Collection|static[]
+     */
+    public function getOrderListbyFabric($idFabric)
+    {
+        $orders = Order::where('idFabric', $idFabric)->get();
+        foreach($orders as $order) {
+            $item_sum = 0;
+            $item_discount = 0;
+            foreach($order->OrdersFabricList as $item) {
+                $discount = 0;
+                $new = $item->Fabric->PriceNew;
+                $regular = $item->Fabric->Price;
+                $price = ($new != 0) ? $new : $regular;
+                if ($price == $new) {
+                    $discount = $regular - $new;
+                } else { $discount = 0; }
+                $sum = $price * $item->Amount;
+                $sum_discount = $discount * $item->Amount;
+                $item_sum = $item_sum + $sum;
+                $item_discount = $item_discount + $sum_discount;
+            }
+            $order->TotalSum = $item_sum;
+            $order->TotalDiscount = $item_discount;
+            $order->save();
+        }
+        return $orders;
+    }
+
+    /**
      * Operation postOrder
      *
      * Сохранить заказ

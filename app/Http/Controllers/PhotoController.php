@@ -18,18 +18,19 @@ class PhotoController extends Controller
 
         $idFabric = $request->idFabric;
         $idFabricsType = $request->idFabricsType;
-        $files = $request->Imagepath;
+        $files = $request->Image;
 
         if ($files !== null) {
            // foreach($files as $file) {
                 $name = $idFabric ? $idFabric: 'category'.$idFabricsType;
                 $original_name = $name.'.'.$files->getClientOriginalExtension();
                 $files->move(public_path().'/images', $original_name);
+                $imageNotice = ($request->ImageNotice) ? $request->ImageNotice : '';
                 Photo::create ([
                     'idFabric' => $idFabric,
                     'idFabricsType' => $idFabricsType,
                     'Imagepath' => 'images/'.$original_name,
-                    'ImageNotice' => $request->ImageNotice
+                    'ImageNotice' => $imageNotice
                 ]);
          //   }
         }

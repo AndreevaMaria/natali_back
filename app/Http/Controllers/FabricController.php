@@ -194,7 +194,7 @@ class FabricController extends Controller
     {
         $idFabric = $request->idFabric;
         $fabric = Fabric::find($idFabric);
-        $file = $request->Imagepath;
+        $file = $request->Image;
 
         if ($file !== null) {
             $original_name = $idFabric . '.' . $file->getClientOriginalExtension();

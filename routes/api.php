@@ -34,11 +34,9 @@ post('password/reset', 'Auth\ResetPasswordController@reset');
 */
 
 
-Route::get('/login', 'AuthController@getLoginForm')->name('login');
-Route::get('/registration', 'AuthController@getRegistrationForm');
+
 Route::post('/login', 'AuthController@postLogin');
 Route::post('/registration', 'AuthController@postRegister');
-Route::get('/dashboard', 'AuthController@dashboard');
 Route::put('/registration/{idUser}', 'AuthController@updateUser');
 Route::post('/logout', 'AuthController@postLogout');
 
@@ -66,6 +64,7 @@ Route::post('/logout', 'AuthController@postLogout');
     Route::post('/admin/orders', 'AdminOrderController@postOrder');
     Route::put('/admin/orders/{idOrder}', 'AdminOrderController@updateOrder');
     Route::delete('/admin/orders/{idOrder}', 'AdminOrderController@deleteOrder');
+    Route::get('/admin/orders/{idFabric}', 'AdminOrderController@getOrderListbyFabric');
 
 //});
 

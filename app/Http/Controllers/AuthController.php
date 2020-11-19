@@ -3,11 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Validator, Response;
 use App\User;
 use illuminate\Support\Facades\Auth;
 use illuminate\Support\Facades\Hash;
-use Session;
 
 //use Tymon\JWTAuth\Providers\Auth\
 
@@ -27,9 +25,9 @@ class AuthController extends Controller
         ]);
         $credentials = $request->only('Email', 'Pass');
         if(Auth::attempt($credentials)) {
-            return redirect()->intended('/');
+            return Auth::user();
         }
-        return route('login');
+        return redirect('/');
     }
 
     /**
@@ -41,58 +39,55 @@ class AuthController extends Controller
     public function postRegister(Request $request)
     {
         $request->validate([
-            'Email' => 'required',
-            'Pass' => 'required'
+            'Email' => 'required|Email|unique:users',
+            'Pass' => 'required|min:6',
+            'Name' => 'required|',
+            'LastName' => 'required',
+            'Phone' => 'required',
+            'ConfirmPass' => 'required'
         ]);
-        $credentials = $request->only('Email', 'Pass');
-        if(Auth::attempt($credentials)) {
-            User::search('Email', 'like', $request->)
-        }
-        
+        $this->create($request->all());
+        return redirect('/');
     }
 
     /**
-     * Display the specified resource.
+     * createUser
      *
-     * @param  int  $id
+     * @param $data
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function createUser($data)
     {
-        //
+        return User::create([
+            'Name' => $data['Name'],
+            'LastName' => $data['LastName'],
+            'Email'  => $data['Email'],
+            'Phone' => $data['Phone'],
+            'Password' => Hash::make($data['Password']),
+            'Token'  => uniqid()
+        ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * logout
      *
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function logout()
     {
-        //
+        Auth::logout();
+        return redirect('/');
     }
 
     /**
-     * Update the specified resource in storage.
+     * updateUser
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  token  $Token
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function updateUser(Request $request, $Token)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        return response()->json(User::find('Token', $Token)->update($request->input()), 200);
     }
 }
