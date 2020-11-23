@@ -19,15 +19,14 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        $request->validate([
-            'Email' => 'required',
-            'Pass' => 'required'
-        ]);
-        $credentials = $request->only('Email', 'Pass');
-        if(Auth::attempt($credentials)) {
-            return Auth::user();
-        }
-        return redirect('/');
+        if ($user  = User::find('Email', $request->Email)) {
+            if ($user->Password == password_hash($request->Password, PASSWORD_BCRYPT)) {
+                $user->Token == uniqid();
+                $user->save();
+            }
+            return $user;
+        } else return;
+
     }
 
     /**
@@ -40,31 +39,21 @@ class AuthController extends Controller
     {
         $request->validate([
             'Email' => 'required|Email|unique:users',
-            'Pass' => 'required|min:6',
+            'Password' => 'required|min:6',
             'Name' => 'required|',
             'LastName' => 'required',
             'Phone' => 'required',
             'ConfirmPass' => 'required'
         ]);
-        $this->create($request->all());
-        return redirect('/');
-    }
-
-    /**
-     * createUser
-     *
-     * @param $data
-     * @return \Illuminate\Http\Response
-     */
-    public function createUser($data)
-    {
+        $data = $request->all();
         return User::create([
             'Name' => $data['Name'],
             'LastName' => $data['LastName'],
             'Email'  => $data['Email'],
             'Phone' => $data['Phone'],
             'Password' => Hash::make($data['Password']),
-            'Token'  => uniqid()
+            'Token' => uniqid(),
+            'Role' => 'user'
         ]);
     }
 
@@ -75,8 +64,7 @@ class AuthController extends Controller
      */
     public function logout()
     {
-        Auth::logout();
-        return redirect('/');
+        return Auth::logout();
     }
 
     /**
