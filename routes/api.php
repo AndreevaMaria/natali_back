@@ -37,7 +37,7 @@ post('password/reset', 'Auth\ResetPasswordController@reset');
 
 Route::post('/login', 'AuthController@postLogin');
 Route::post('/registration', 'AuthController@postRegister');
-Route::put('/registration/{idUser}', 'AuthController@updateUser');
+Route::post('/registration/{idUser}', 'AuthController@updateUser');
 Route::post('/logout', 'AuthController@postLogout');
 
 //Route::group([
