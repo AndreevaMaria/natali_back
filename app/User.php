@@ -20,7 +20,7 @@ class User extends Model
      */
     protected $primaryKey = 'id';
     protected $fillable = [
-        'Name', 'LastName', 'Email', 'Phone', 'Role', 'Token'
+        'Name', 'LastName', 'Email', 'Phone', 'Role', 'Token', 'Password'
     ];
 
     /**
@@ -29,7 +29,7 @@ class User extends Model
      * @var array
      */
     protected $hidden = [
-        'Password', 'remember_token',
+        'remember_token',
     ];
 
     /**

@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use illuminate\Support\Facades\Auth;
-use illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 
 //use Tymon\JWTAuth\Providers\Auth\
 
@@ -19,14 +18,15 @@ class AuthController extends Controller
      */
     public function postLogin(Request $request)
     {
-        if ($user  = User::find('Email', $request->Email)) {
-            if ($user->Password == password_hash($request->Password, PASSWORD_BCRYPT)) {
-                $user->Token == uniqid();
-                $user->save();
-            }
+        $user = User::where('Email', $request->Email)->first();
+        //&& $user->Token == $request->Token
+        if ($user &&  password_verify($request->Password, $user->Password)) {
+            $user->Token == uniqid();
+            $user->save();
             return $user;
-        } else return;
-
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -37,21 +37,12 @@ class AuthController extends Controller
      */
     public function postRegister(Request $request)
     {
-        $request->validate([
-            'Email' => 'required|Email|unique:users',
-            'Password' => 'required|min:6',
-            'Name' => 'required|',
-            'LastName' => 'required',
-            'Phone' => 'required',
-            'ConfirmPass' => 'required'
-        ]);
-        $data = $request->all();
         return User::create([
-            'Name' => $data['Name'],
-            'LastName' => $data['LastName'],
-            'Email'  => $data['Email'],
-            'Phone' => $data['Phone'],
-            'Password' => Hash::make($data['Password']),
+            'Name' => $request->Name,
+            'LastName' => $request->LastName,
+            'Email'  => $request->Email,
+            'Phone' => $request->Phone,
+            'Password' => password_hash($request->Password, PASSWORD_BCRYPT),
             'Token' => uniqid(),
             'Role' => 'user'
         ]);
@@ -60,22 +51,44 @@ class AuthController extends Controller
     /**
      * logout
      *
+     * @param  idUser
      * @return \Illuminate\Http\Response
      */
-    public function logout()
+    public function logout($idUser)
     {
-        return Auth::logout();
+        $user = User::find($idUser);
+        var_dump($user);
+        $user->Token = '';
+        $user->save();
+        return response()->json('', 200);
     }
 
     /**
      * updateUser
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  token  $Token
+     * @param  idUser
      * @return \Illuminate\Http\Response
      */
-    public function updateUser(Request $request, $Token)
+    public function updateUser(Request $request, $idUser)
     {
-        return response()->json(User::find('Token', $Token)->update($request->input()), 200);
+        $user = User::find($idUser);
+        if($user && $user->Token == $request->Token) {
+            $user->update($request->input());
+            return response()->json($user, 200);
+        } return false;
+    }
+
+    /**
+     * AuthUser
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function AuthUser(Request $request)
+    {
+        $user = User::where('Token', $request->bearerToken())->get();
+        
+        return response()->json($user, 200);
     }
 }

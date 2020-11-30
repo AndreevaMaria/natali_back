@@ -39,6 +39,7 @@ Route::post('/login', 'AuthController@postLogin');
 Route::post('/registration', 'AuthController@postRegister');
 Route::post('/registration/{idUser}', 'AuthController@updateUser');
 Route::post('/logout', 'AuthController@postLogout');
+Route::post('/auth', 'AuthController@AuthUser');
 
 //Route::group([
 //    'middleware' => 'admin',
