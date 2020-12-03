@@ -87,8 +87,8 @@ class AuthController extends Controller
      */
     public function AuthUser(Request $request)
     {
-        $user = User::where('Token', $request->bearerToken())->get();
-        
+        $user = User::where('Token', $request->bearerToken())->first();
+
         return response()->json($user, 200);
     }
 }
